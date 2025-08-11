@@ -33,7 +33,7 @@ bool adminLogin(Admin &admin)
     }
 }
 
-bool Admin::login(std::string &username, std::string &password) const
+bool Admin::login(std::string_view username, std::string_view password) const
 {
     if (username == this->username && password == this->password)
         return true;

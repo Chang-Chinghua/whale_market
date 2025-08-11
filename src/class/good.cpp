@@ -25,9 +25,8 @@ void load(std::vector<Good> &goods)
         {
             good.push_back(item);
         }
-        goods.push_back(Good(good[0], good[1], std::stod(good[2]), good[3], good[4], good[5], std::stoi(good[6])));
+        goods.push_back(Good(good[0], good[1], std::stod(good[2]), good[3], good[4], good[5], static_cast<GoodState>(std::stoi(good[6]))));
     }
-    file.close();
 }
 
 void save(std::vector<Good> &goods)
@@ -43,16 +42,15 @@ void save(std::vector<Good> &goods)
     {
         file << good.id << "," << good.name << "," << good.price << "," << good.description << "," << good.user_id << "," << good.time << "," << good.state << std::endl;
     }
-    file.close();
 }
 
-const std::string transState(const Good &good)
+std::string_view transState(const Good &good)
 {
-    if (good.state == 1)
+    if (good.state == GoodState::Sold)
     {
         return "已售出";
     }
-    else if (good.state == 2)
+    else if (good.state == GoodState::Off)
     {
         return "已下架";
     }
@@ -69,7 +67,7 @@ void viewAllGood(const std::vector<Good> &goods)
     std::cout << "***************************************************************" << std::endl;
     for (const auto &good : goods)
     {
-        if (good.state == 3)
+        if (good.state == GoodState::Selling)
         {
             std::cout << good.id << "\t" << good.name << "\t" << good.price << "\t" << good.time << "\t" << good.user_id << std::endl;
         }
@@ -86,7 +84,7 @@ void searchGood(const std::vector<Good> &goods)
     std::cout << "ID\t名称\t价格\t上架时间\t卖家ID" << std::endl;
     for (const auto &good : goods)
     {
-        if (good.name.find(name) != std::string::npos && good.state == 3)
+        if (good.name.find(name) != std::string::npos && good.state == GoodState::Selling)
         {
             std::cout << good.id << "\t" << good.name << "\t" << good.price << "\t" << good.time << "\t" << good.user_id << std::endl;
         }

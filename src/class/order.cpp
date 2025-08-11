@@ -27,7 +27,6 @@ void load(std::vector<Order>& orders)
         Order order(v[0], v[1], std::stod(v[2]), v[3], v[4], v[5]);
         orders.push_back(order);
     }
-    file.close();
 }
 void save(std::vector<Order>& orders)
 {
@@ -42,6 +41,4 @@ void save(std::vector<Order>& orders)
     {
         file << order.id << "," << order.good_id << "," << order.price << "," << order.time << "," << order.sold_id << "," << order.buy_id << std::endl;
     }
-    file.close();
-
 }

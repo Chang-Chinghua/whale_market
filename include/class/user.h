@@ -20,7 +20,7 @@ struct User
     void view();
     void modify();
     void uploadGood(std::vector<Good> &goods);
-    void viewGood(std::vector<Good> &goods);
+    void viewGood(const std::vector<Good> &goods);
     void modifyGood(std::vector<Good> &goods);
     void deleteGood(std::vector<Good> &goods);
     void sellerOrder();
@@ -31,6 +31,6 @@ struct User
 void load(std::vector<User> &users);
 void save(std::vector<User> &users);
 void registerUser();
-bool loginUser(User *&user_i, std::vector<User> &users);
+User* loginUser(std::vector<User> &users);
 
 #endif

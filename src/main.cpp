@@ -2,18 +2,15 @@
 #include "class/admin.h"
 #include "class/user.h"
 #include "class/good.h"
-
+#include "tools/clear_screen.h"
 #include <iostream>
+#include <cstdlib>
 
-inline void back()
-{
-    system("pause");
-    system("cls");
-}
+
 inline void inputError()
 {
     std::cout << "输入错误" << std::endl;
-    back();
+    std::system("pause");
 }
 
 int main()
@@ -35,19 +32,21 @@ int main()
             User *user = nullptr;
             std::vector<Good> goods;
             load(goods);
-            bool flag = loginUser(user, users);
+            user = loginUser(users);
+
             // 登录失败
-            if (!flag)
+            if(user == nullptr)
             {
-                system("cls");
-                back();
+                flag=false;
+                clear_screen();
+                std::system("pause");
                 break;
             }
 
             // 登录成功
             while (flag)
             {
-                system("cls");
+                clear_screen();
                 bool flag2 = true;
                 int choice;
                 userMenu();
@@ -57,12 +56,12 @@ int main()
                 case 1:
                     flag = false;
                     std::cout << "注销成功" << std::endl;
-                    back();
+                    std::system("pause");
                     break;
                 case 2:
-                    system("cls");
                     while (flag2)
                     {
+                        clear_screen();
                         buyerMenu();
                         int buyer_choice;
                         std::cin >> buyer_choice;
@@ -70,28 +69,28 @@ int main()
                         {
                         case 1:
                             viewAllGood(goods);
-                            back();
+                            std::system("pause");
                             break;
                         case 2:
                             user->buy(goods);
-                            back();
+                            std::system("pause");
                             break;
                         case 3:
                             searchGood(goods);
-                            back();
+                            std::system("pause");
                             break;
                         case 4: 
                             user->buyerOrder();
-                            back();                           
+                            std::system("pause");                           
                             break;
                         case 5:
                             viewGoodIfo(goods);
-                            back();
+                            std::system("pause");
                             break;
                         case 6:
                             flag2 = false;
                             std::cout << "即将返回用户主界面" << std::endl;
-                            back();
+                            std::system("pause");
                             break;
                         default:
                             inputError();
@@ -100,9 +99,9 @@ int main()
                     }
                     break;
                 case 3:
-                    system("cls");
                     while (flag2)
                     {
+                        clear_screen();
                         sellerMenu();
                         int seller_choice;
                         std::cin >> seller_choice;
@@ -111,29 +110,29 @@ int main()
                         case 1:
                             user->uploadGood(goods);
                             save(goods);
-                            back();
+                            std::system("pause");
                             break;
                         case 2:
                             user->viewGood(goods);
-                            back();
+                            std::system("pause");
                             break;
                         case 3:
                             user->modifyGood(goods);
                             save(goods);
-                            back();
+                            std::system("pause");
                             break;
                         case 4:
                             user->deleteGood(goods);
-                            back();
+                            std::system("pause");
                             break;
                         case 5:
                             user->sellerOrder();
-                            back();
+                            std::system("pause");
                             break;
                         case 6:
                             flag2 = false;
                             std::cout << "即将返回用户主界面" << std::endl;
-                            back();
+                            std::system("pause");
                             break;
                         default:
                             inputError();
@@ -142,9 +141,9 @@ int main()
                     }
                     break;
                 case 4:
-                    system("cls");
                     while (flag2)
                     {
+                        clear_screen();
                         userModifyMenu();
                         int modify_choice;
                         std::cin >> modify_choice;
@@ -153,21 +152,21 @@ int main()
                         case 1:
                             flag2 = false;
                             std::cout << "即将返回用户主界面" << std::endl;
-                            back();
+                            std::system("pause");
                             break;
                         case 2:
                             user->modify();
                             save(users);
-                            back();
+                            std::system("pause");
                             break;
                         case 3:
                             user->view();
-                            back();
+                            std::system("pause");
                             break;
                         case 4:
                             user->charge();
                             save(users);
-                            back();
+                            std::system("pause");
                             break;
                         default:
                             inputError();
@@ -188,7 +187,7 @@ int main()
         case 2:
         {
             registerUser();
-            back();
+            std::system("pause");
             break;
         }
 
@@ -201,16 +200,17 @@ int main()
             if (!flag)
             {
                 std::cout << "*****************   登录失败!即将返回主菜单...  **********************" << std::endl;
-                back();
+                clear_screen();
+                std::system("pause");
                 break;
             }
 
             // 登录成功
             std::cout << "****************************  登录成功!  **************************" << std::endl;
-            back();
+            std::system("pause");
             while (flag)
             {
-                system("cls");
+                clear_screen();
                 adminMenu();
                 int adminChoice;
                 std::cin >> adminChoice;
@@ -218,32 +218,32 @@ int main()
                 {
                 case 1:
                     admin.viewGoods();
-                    back();
+                    std::system("pause");
                     break;
                 case 2:
                     admin.searchGoods();
-                    back();
+                    std::system("pause");
                     break;
                 case 3:
                     admin.viewOrders();
-                    back();
+                    std::system("pause");
                     break;
                 case 4:
                     admin.viewUsers();
-                    back();
+                    std::system("pause");
                     break;
                 case 5:
                     admin.deleteUsersID();
-                    back();
+                    std::system("pause");
                     break;
                 case 6:
                     admin.deleteGoodsID();
-                    back();
+                    std::system("pause");
                     break;
                 case 7:
                     std::cout << "注销成功" << std::endl;
                     flag = false;
-                    back();
+                    std::system("pause");
                     break;
                 default:
                     inputError();
@@ -257,7 +257,7 @@ int main()
         {
 
             std::cout << "欢迎下次再来" << std::endl;
-            system("pause");
+            std::system("pause");
             return 0;
             break;
         }
@@ -267,6 +267,6 @@ int main()
             break;
         }
     }
-    system("pause");
+    std::system("pause");
     return 0;
 }

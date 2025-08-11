@@ -6,17 +6,13 @@
 #include "class/user.h"
 #include "class/good.h"
 #include "class/order.h"
-#include <ctime>
+#include <format>
+#include <chrono>
 
 std::string getTime()
 {
-    time_t now = time(nullptr);
-    tm *localTime = localtime(&now);
-
-    char buffer[11]; // yyyy-mm-dd + null terminator
-    strftime(buffer, sizeof(buffer), "%Y-%m-%d", localTime);
-
-    return std::string(buffer);
+    auto now=std::chrono::system_clock::now();
+    return std::format("{:%Y-%m-%d}",now);
 }
 
 void load(std::vector<User> &users)
@@ -40,7 +36,6 @@ void load(std::vector<User> &users)
         }
         users.push_back(User(v[0], v[1], v[2], v[3], v[4], std::stod(v[5])));
     }
-    file.close();
 }
 
 void save(std::vector<User> &users)
@@ -51,7 +46,6 @@ void save(std::vector<User> &users)
     {
         file << user.id << "," << user.name << "," << user.password << "," << user.phone << "," << user.address << "," << user.balance << std::endl;
     }
-    file.close();
 }
 
 void registerUser()
@@ -87,16 +81,15 @@ void registerUser()
     std::cout << "请输入地址:";
     std::string address;
     std::cin >> address;
-    char id[5] = {(users.end() - 1)->id[1], (users.end() - 1)->id[2], (users.end() - 1)->id[3], (users.end() - 1)->id[4], (users.end() - 1)->id[5]};
+    std::string id = (users.end() - 1)->id.substr(1);
     int id2 = std::stoi(id) + 1;
-    char id3[7];
-    sprintf(id3, "U%05d", id2);
+    std::string id3 = "U" + std::format("{:05d}", id2);
     users.push_back(User(id3, name, password, phone, address, 0));
     std::cout << "*****************  注册成功  ********************" << std::endl;
     save(users);
 }
 
-bool loginUser(User *&user_i, std::vector<User> &users)
+User* loginUser(std::vector<User> &users)
 {
     std::cout << "请输入用户名:";
     std::string name;
@@ -109,12 +102,11 @@ bool loginUser(User *&user_i, std::vector<User> &users)
         if (user.name == name && user.password == password)
         {
             std::cout << "***************  登录成功  ********************" << std::endl;
-            user_i = &user;
-            return true;
+            return &user;
         }
     }
     std::cout << "*****************   登录失败!即将返回主菜单...  **********************" << std::endl;
-    return false;
+    return nullptr;
 }
 
 void User::charge()
@@ -187,15 +179,14 @@ void User::uploadGood(std::vector<Good> &goods)
         std::cout << "取消发布！" << std::endl;
         return;
     }
-    char id1[5] = {(goods.end() - 1)->id[1], (goods.end() - 1)->id[2], (goods.end() - 1)->id[3], (goods.end() - 1)->id[4], (goods.end() - 1)->id[5]};
+    std::string id1 = (goods.end() - 1)->id.substr(1);
     int id2 = std::stoi(id1) + 1;
-    char id3[7];
-    sprintf(id3, "M%05d", id2);
-    goods.push_back(Good(id3, name, price, description, id, getTime(), 3));
+    std::string id3 = "M" + std::format("{:05d}", id2);
+    goods.push_back(Good(id3, name, price, description, id, getTime(), GoodState::Selling));
     std::cout << "发布成功！" << std::endl;
 }
 
-void User::viewGood(std::vector<Good> &goods)
+void User::viewGood(const std::vector<Good> &goods)
 {
     std::cout << "您发布的商品清单如下：" << std::endl;
     std::cout << "****************************************" << std::endl;
@@ -279,7 +270,7 @@ void User::deleteGood(std::vector<Good> &goods)
             std::cin >> choice;
             if (choice == 'y')
             {
-                good.state = 2;
+                good.state = GoodState::Off;
                 std::cout << "下架成功" << std::endl;
                 save(goods);
                 return;
@@ -335,7 +326,7 @@ void User::buy(std::vector<Good> &goods){
     std::cin >> good_id;
     for (auto &good : goods)
     {
-        if (good.id == good_id && good.state == 3)
+        if (good.id == good_id && good.state == GoodState::Selling)
         {
             std::cout << "您确定要购买该商品吗！" << std::endl;
             std::cout << "***********************************************************" << std::endl;
@@ -349,15 +340,14 @@ void User::buy(std::vector<Good> &goods){
             std::cin >> choice;
             if (choice == 'y')
             {
-                good.state = 2;
+                good.state = GoodState::Sold;
                 std::cout << "购买成功" << std::endl;
                 save(goods);
                 std::vector<Order> orders;
                 load(orders);
-                char id1[5] = {(orders.end() - 1)->id[1], (orders.end() - 1)->id[2], (orders.end() - 1)->id[3], (orders.end() - 1)->id[4], (orders.end() - 1)->id[5]};
+                std::string id1 = (orders.end() - 1)->id.substr(1);
                 int id2 = std::stoi(id1) + 1;
-                char id3[7];
-                sprintf(id3, "T%05d", id2);
+                std::string id3 = "O" + std::format("{:05d}", id2);
                 orders.push_back(Order(id3, good.id, good.price, getTime(), good.user_id, id));
                 save(orders);
                 return;

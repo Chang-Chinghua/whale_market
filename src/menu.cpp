@@ -1,8 +1,9 @@
 #include "menu.h"
 #include "tools/color.h"
 #include <iostream>
+#include <string>
 
-static const char *BANNER = "\
+inline constexpr std::string_view BANNER = "\
 \t__          ___           _          __  __            _        _       _\n\
 \t\\ \\        / / |         | |        |  \\/  |          | |      | |     | |\n\
 \t \\ \\  /\\  / /| |__   __ _| | ___    | \\  / | __ _ _ __| | _____| |_    | |\n\
@@ -13,9 +14,9 @@ static const char *BANNER = "\
 
 void welcomeMessage()
 {
-    printf("\n%s%sWelcome to%s\n", BOLD, FRONT_RED, RESET);
-    printf("%s%s%s%s\n", FRONT_BLUE, BOLD, BANNER, RESET);
-    printf("%sThis is WinterCode Project for C-Beginners.%s\n\n", FRONT_PURPLR, RESET);
+    std::cout << "\n" << BOLD << FRONT_RED << "Welcome to" << RESET << std::endl;
+    std::cout << FRONT_BLUE << BOLD << BANNER << RESET << std::endl;
+    std::cout << FRONT_PURPLR << "This is WinterCode Project for C-Beginners." << RESET << std::endl;
 }
 
 void initialMenu()
