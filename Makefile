@@ -13,8 +13,8 @@ CLASSDIR = src/class
 TOOLSDIR = src/tools
 
 # Source files
-SOURCES = $(SRCDIR)/main.cpp $(SRCDIR)/menu.cpp $(CLASSDIR)/admin.cpp $(CLASSDIR)/good.cpp $(CLASSDIR)/user.cpp $(CLASSDIR)/order.cpp $(TOOLSDIR)/color.cpp
-OBJECTS = main.o menu.o admin.o good.o user.o order.o color.o
+SOURCES = $(SRCDIR)/main.cpp $(SRCDIR)/menu.cpp $(CLASSDIR)/admin.cpp $(CLASSDIR)/good.cpp $(CLASSDIR)/user.cpp $(CLASSDIR)/order.cpp
+OBJECTS = main.o menu.o admin.o good.o user.o order.o
 
 # Target executable
 TARGET = main.exe
@@ -45,8 +45,6 @@ user.o: $(CLASSDIR)/user.cpp
 order.o: $(CLASSDIR)/order.cpp
 	$(CXX) $(CXXFLAGS) -c $(CLASSDIR)/order.cpp -o order.o
 
-color.o: $(TOOLSDIR)/color.cpp
-	$(CXX) $(CXXFLAGS) -c $(TOOLSDIR)/color.cpp -o color.o
 
 # Clean build artifacts
 clean:

@@ -128,7 +128,7 @@ void Admin::deleteGoodsID() const
             std::cin >> choice;
             if (choice == 'y')
             {
-                good.state = 2;
+                good.state = GoodState::Off;
                 flag = true;
                 std::cout << "下架成功" << std::endl;
                 break;

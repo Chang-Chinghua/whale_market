@@ -40,7 +40,7 @@ void save(std::vector<Good> &goods)
     file << "商品ID,名称,价格,描述,卖家ID,上架时间,商品状态" << std::endl;
     for (auto good : goods)
     {
-        file << good.id << "," << good.name << "," << good.price << "," << good.description << "," << good.user_id << "," << good.time << "," << good.state << std::endl;
+        file << good.id << "," << good.name << "," << good.price << "," << good.description << "," << good.user_id << "," << good.time << "," << static_cast<int>(good.state) << std::endl;
     }
 }
 

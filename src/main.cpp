@@ -33,6 +33,7 @@ int main()
             std::vector<Good> goods;
             load(goods);
             user = loginUser(users);
+            bool flag = true;
 
             // 登录失败
             if(user == nullptr)

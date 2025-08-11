@@ -24,3 +24,4 @@
         std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     }
 #endif
+#endif // CLEAR_SCREEN_H
