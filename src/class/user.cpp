@@ -5,6 +5,7 @@
 #include <vector>
 #include "class/user.h"
 #include "class/good.h"
+#include "class/order.h"
 #include <ctime>
 
 std::string getTime()
@@ -291,4 +292,82 @@ void User::deleteGood(std::vector<Good> &goods)
         }
     }
     std::cout << "该商品不存在，下架失败" << std::endl;
+}
+
+void User::sellerOrder()
+{
+    std::vector<Order> orders;
+    load(orders);
+    std::cout << "您的订单清单如下：" << std::endl;
+    std::cout << "****************************************" << std::endl;
+    std::cout << "订单ID\t商品ID\t交易金额\t交易时间\t卖家ID\t买家ID" << std::endl;
+    for (const auto &order : orders)
+    {
+        if (order.sold_id == id)
+        {
+            std::cout << order.id << "\t" << order.good_id << "\t" << order.price << "\t" << order.time << "\t" << order.sold_id << "\t" << order.buy_id << std::endl;
+        }
+    }
+    std::cout << "****************************************" << std::endl;
+}
+
+void User::buyerOrder()
+{
+    std::vector<Order> orders;
+    load(orders);
+    std::cout << "您的订单清单如下：" << std::endl;
+    std::cout << "****************************************" << std::endl;
+    std::cout << "订单ID\t商品ID\t交易金额\t交易时间\t卖家ID\t买家ID" << std::endl;
+    for (const auto &order : orders)
+    {
+        if (order.buy_id == id)
+        {
+            std::cout << order.id << "\t" << order.good_id << "\t" << order.price << "\t" << order.time << "\t" << order.sold_id << "\t" << order.buy_id << std::endl;
+        }
+    }
+    std::cout << "****************************************" << std::endl;
+}
+
+void User::buy(std::vector<Good> &goods){
+    viewAllGood(goods);
+    std::cout << "请输入要购买的商品ID:";
+    std::string good_id;
+    std::cin >> good_id;
+    for (auto &good : goods)
+    {
+        if (good.id == good_id && good.state == 3)
+        {
+            std::cout << "您确定要购买该商品吗！" << std::endl;
+            std::cout << "***********************************************************" << std::endl;
+            std::cout << "商品ID:" << good.id << std::endl;
+            std::cout << "商品名称:" << good.name << std::endl;
+            std::cout << "商品价格:" << good.price << std::endl;
+            std::cout << "商品描述:" << good.description << std::endl;
+            std::cout << "***********************************************************" << std::endl;
+            std::cout << "请选择(y/n):" << std::endl;
+            char choice;
+            std::cin >> choice;
+            if (choice == 'y')
+            {
+                good.state = 2;
+                std::cout << "购买成功" << std::endl;
+                save(goods);
+                std::vector<Order> orders;
+                load(orders);
+                char id1[5] = {(orders.end() - 1)->id[1], (orders.end() - 1)->id[2], (orders.end() - 1)->id[3], (orders.end() - 1)->id[4], (orders.end() - 1)->id[5]};
+                int id2 = std::stoi(id1) + 1;
+                char id3[7];
+                sprintf(id3, "T%05d", id2);
+                orders.push_back(Order(id3, good.id, good.price, getTime(), good.user_id, id));
+                save(orders);
+                return;
+            }
+            else
+            {
+                std::cout << "取消购买" << std::endl;
+                return;
+            }
+        }
+    }
+    std::cout << "该商品不存在，购买失败" << std::endl;
 }

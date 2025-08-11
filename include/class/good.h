@@ -19,7 +19,7 @@ struct Good
 void load(std::vector<Good> &goods);
 void save(std::vector<Good> &goods);
 const std::string transState(const Good &good);
-void viewGood(const std::vector<Good> &goods);
+void viewAllGood(const std::vector<Good> &goods);
 void searchGood(const std::vector<Good> &goods);
 void viewGoodIfo(const std::vector<Good> &goods);
 

@@ -23,7 +23,9 @@ struct User
     void viewGood(std::vector<Good> &goods);
     void modifyGood(std::vector<Good> &goods);
     void deleteGood(std::vector<Good> &goods);
-
+    void sellerOrder();
+    void buyerOrder();
+    void buy(std::vector<Good> &goods);
 };
 
 void load(std::vector<User> &users);

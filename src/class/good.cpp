@@ -62,7 +62,7 @@ const std::string transState(const Good &good)
     }
 }
 
-void viewGood(const std::vector<Good> &goods)
+void viewAllGood(const std::vector<Good> &goods)
 {
     std::cout << "***************************************************************" << std::endl;
     std::cout << "ID\t名称\t价格\t上架时间\t卖家ID" << std::endl;
@@ -96,7 +96,7 @@ void searchGood(const std::vector<Good> &goods)
 
 void viewGoodIfo(const std::vector<Good> &goods)
 {
-    viewGood(goods);
+    viewAllGood(goods);
     std::string id;
     std::cout << "请输入商品ID:";
     std::cin >> id;

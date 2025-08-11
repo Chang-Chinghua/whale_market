@@ -69,16 +69,20 @@ int main()
                         switch (buyer_choice)
                         {
                         case 1:
-                            viewGood(goods);
+                            viewAllGood(goods);
                             back();
                             break;
                         case 2:
+                            user->buy(goods);
+                            back();
                             break;
                         case 3:
                             searchGood(goods);
                             back();
                             break;
-                        case 4:                            
+                        case 4: 
+                            user->buyerOrder();
+                            back();                           
                             break;
                         case 5:
                             viewGoodIfo(goods);
@@ -123,6 +127,8 @@ int main()
                             back();
                             break;
                         case 5:
+                            user->sellerOrder();
+                            back();
                             break;
                         case 6:
                             flag2 = false;
